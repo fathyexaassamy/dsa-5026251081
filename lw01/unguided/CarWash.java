@@ -13,7 +13,7 @@ public class CarWash extends WashService {
         }
 
         else {
-            return (15000 + ((getDays() - 3) * 25000) + 15000) * getJumlah();
+            return (15000 + (getDays() - 3) * 25000)) * getJumlah();
         }
     }
 
