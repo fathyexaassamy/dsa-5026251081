@@ -1,8 +1,7 @@
-import java.util.Scanner;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -10,9 +9,9 @@ public class Main {
 
         List<PrintJob> jobs = new ArrayList<>();
 
-        Scanner sc = new Scanner (new File("lw01/prelab/jobs.txt"));
+        Scanner sc = new Scanner (Main.class.getResourceAsStream("jobs.txt"));
 
-        while (sc.hasNext()) {
+        while (sc.hasNext()) { //has.next() ngecek ada gak interger yang bisa diambil
             String type = sc.next();
             String id = sc.next();
             int pages = sc.nextInt();
@@ -24,6 +23,7 @@ public class Main {
             }
         }
 
+        sc.close();
         //print
         for (PrintJob job : jobs) {
             System.out.println(job.summary());
