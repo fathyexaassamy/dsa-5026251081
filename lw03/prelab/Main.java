@@ -10,7 +10,6 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
-
         problem1();
         problem2();
         problem3();
@@ -26,7 +25,7 @@ public class Main {
                 Main.class.getResourceAsStream("playlist.txt");
 
         if (inputStream == null) {
-            System.out.println("File playlist.txt tidak ditemukan.");
+            System.out.println("playlist.txt not found");
             return;
         }
 
@@ -40,7 +39,7 @@ public class Main {
                 continue;
             }
 
-            String[] parts = line.split(" ", 3);
+            String[] parts = line.split("\\s+", 3);
 
             String operation = parts[0];
 
@@ -76,6 +75,7 @@ public class Main {
         System.out.println();
     }
 
+
     public static void problem2() {
 
         System.out.println("===== Problem 2 =====");
@@ -88,7 +88,7 @@ public class Main {
                 Main.class.getResourceAsStream("participants.txt");
 
         if (inputStream == null) {
-            System.out.println("File participants.txt tidak ditemukan.");
+            System.out.println("participants.txt not found");
             return;
         }
 
@@ -141,7 +141,8 @@ public class Main {
 
         System.out.println("===== Problem 3 =====");
 
-        Map<String, Integer> inventory = new LinkedHashMap<>();
+        Map<String, Integer> inventory =
+                new LinkedHashMap<>();
 
         int failedSales = 0;
 
@@ -149,7 +150,7 @@ public class Main {
                 Main.class.getResourceAsStream("inventory.txt");
 
         if (inputStream == null) {
-            System.out.println("File inventory.txt tidak ditemukan.");
+            System.out.println("inventory.txt not found");
             return;
         }
 
@@ -173,7 +174,8 @@ public class Main {
 
                 if (inventory.containsKey(product)) {
 
-                    int currentStock = inventory.get(product);
+                    int currentStock =
+                            inventory.get(product);
 
                     inventory.put(
                             product,
@@ -184,25 +186,19 @@ public class Main {
 
                     inventory.put(product, quantity);
                 }
-            }
 
-            else if (type.equals("SELL")) {
+            } else if (type.equals("SELL")) {
 
-                if (inventory.containsKey(product)) {
+                if (inventory.containsKey(product)
+                        && inventory.get(product) >= quantity) {
 
-                    int currentStock = inventory.get(product);
+                    int currentStock =
+                            inventory.get(product);
 
-                    if (currentStock >= quantity) {
-
-                        inventory.put(
-                                product,
-                                currentStock - quantity
-                        );
-
-                    } else {
-
-                        failedSales++;
-                    }
+                    inventory.put(
+                            product,
+                            currentStock - quantity
+                    );
 
                 } else {
 
@@ -217,7 +213,8 @@ public class Main {
                 : inventory.entrySet()) {
 
             System.out.println(
-                    entry.getKey() + ": " + entry.getValue()
+                    entry.getKey() + ": "
+                            + entry.getValue()
             );
         }
 
