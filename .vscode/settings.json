@@ -1,7 +1,9 @@
 {
     "java.project.sourcePaths": [
         "src",
-        "lw02/prelab"
+        "lw03/prelab",
+        "lw02/prelab",
+        "lw03/unguided"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
