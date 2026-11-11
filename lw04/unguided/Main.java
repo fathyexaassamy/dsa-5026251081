@@ -3,89 +3,106 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(
-                Main.class.getResourceAsStream("branches.txt")
+                Main.class.getResourceAsStream("parcels.txt")
         );
 
         int n = sc.nextInt();
-
-        int[] branches = new int[n];
+        int[] parcels = new int[n];
 
         for (int i = 0; i < n; i++) {
-            branches[i] = sc.nextInt();
+            parcels[i] = sc.nextInt();
         }
 
         int m = sc.nextInt();
-
         int[] targets = new int[m];
 
         for (int i = 0; i < m; i++) {
             targets[i] = sc.nextInt();
         }
-
         sc.close();
 
-        insertionSortThreePasses(branches);
+        int[] afterTwoPasses = new int[n];
 
-        printArray(branches);
+        bubbleSortDescending(parcels, afterTwoPasses);
+
+        System.out.println("==== After 2 Passes ====");
+        printArray(afterTwoPasses);
+
+        System.out.println();
+        System.out.println("==== Fully Sorted ====");
+        printArray(parcels);
+
+        System.out.println();
+        System.out.println("==== Search Results ====");
 
         for (int i = 0; i < m; i++) {
-
-            int index = linearSearch(branches, targets[i]);
+            int[] result = binarySearchDescending(parcels, targets[i]);
+            int index = result[0];
+            int steps = result[1];
 
             if (index != -1) {
-                System.out.println(
-                        targets[i] + ": FOUND at index " + index
-                );
+                System.out.println(targets[i] + ": FOUND at index "
+                        + index + " (steps: " + steps + ")");
             } else {
-                System.out.println(
-                        targets[i] + ": NOT FOUND"
-                );
+                System.out.println(targets[i] + ": NOT FOUND (steps: "
+                        + steps + ")");
+            }
+        }
+    }
+    
+    public static void bubbleSortDescending(
+            int[] arr, int[] afterTwoPasses) {
+
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+
+            if (i == 1) {
+                for (int k = 0; k < n; k++) {
+                    afterTwoPasses[k] = arr[k];
+                }
             }
         }
     }
 
-    public static void insertionSortThreePasses(int[] arr) {
+    public static int[] binarySearchDescending(int[] arr, int target) {
+        int low = 0;
+        int high = arr.length - 1;
+        int steps = 0;
 
-        for (int i = 1; i <= 3; i++) {
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            steps++;
 
-            int key = arr[i];
-            int j = i - 1;
-
-            while (j >= 0 && arr[j] < key) {
-
-                arr[j + 1] = arr[j];
-                j--;
+            if (arr[mid] == target) {
+                return new int[] { mid, steps };
             }
 
-            arr[j + 1] = key;
-        }
-    }
-
-    public static int linearSearch(int[] arr, int target) {
-
-        for (int i = 0; i < arr.length; i++) {
-
-            if (arr[i] == target) {
-                return i;
+            if (target > arr[mid]) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
 
-        return -1;
+        return new int[] { -1, steps };
     }
 
     public static void printArray(int[] arr) {
-
         for (int i = 0; i < arr.length; i++) {
-
             if (i > 0) {
                 System.out.print(" ");
             }
-
             System.out.print(arr[i]);
         }
-
         System.out.println();
     }
 }
